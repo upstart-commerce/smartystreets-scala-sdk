@@ -2,7 +2,7 @@ organization := "com.upstartcommerce"
 name := "smartystreets-scala-sdk"
 version := "0.0.1"
 
-licenses += "Apache License 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")
+licenses += "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")
 
 scalaVersion := "2.12.8"
 
