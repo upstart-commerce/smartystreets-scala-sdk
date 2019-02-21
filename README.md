@@ -16,8 +16,8 @@ libraryDependencies += "org.upstartcommerce" %% "smartystreets-scala-sdk" % "0.0
 
 Basic usage is:
 ```scala
-import com.upstartcommerce.smartystreets.SmartyStreetsIntegration
-import com.upstartcommerce.smartystreets.common._
+import org.upstartcommerce.smartystreets.SmartyStreetsIntegration
+import org.upstartcommerce.smartystreets.common._
 
 class MyAddressVerificationService extends SmartyStreetsIntegration {
 
