@@ -1,4 +1,5 @@
 # SmartyStreets Scala SDK
+ [ ![Download](https://api.bintray.com/packages/upstartcommerce/generic/smartystreets-scala-sdk/images/download.svg) ](https://bintray.com/upstartcommerce/generic/smartystreets-scala-sdk/_latestVersion)
 
 Scala library for interaction with SmartyStreets REST API.
 
@@ -44,4 +45,4 @@ object Main {
 ```
 >**Note**: Implicit `ActorSystem`, `ActorMaterializer` and `ExecutionContext` are required 
 
-See `example` subproject for more examples.
+See tests for more examples.
