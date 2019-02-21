@@ -45,4 +45,4 @@ object Main {
 ```
 >**Note**: Implicit `ActorSystem`, `ActorMaterializer` and `ExecutionContext` are required 
 
-See `example` subproject for more examples.
+See tests for more examples.
