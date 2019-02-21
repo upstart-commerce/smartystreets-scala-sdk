@@ -1,4 +1,4 @@
-package com.upstartcommerce.smartystreets.common
+package org.upstartcommerce.smartystreets.common.exception
 
 /*
 Copyright 2019 UpStart Commerce, Inc.
@@ -17,16 +17,12 @@ limitations under the License.
  */
 
 /**
-  * Represent configuration for SmartyStreets API
-  *
-  * @param authId    Authentication ID provided by SmartyStreets
-  * @param authToken Authentication token provided by SmartyStreets
-  * @param endpoint  Endpoint where SmartyStreets API is running
+  * Represents a general exception raised when during interaction with SmartyStreets API
   *
   * @author Yan Doroshenko
   */
-case class SmartyStreetsConfig(
-                                authId: String,
-                                authToken: String,
-                                endpoint: String = "https://us-street.api.smartystreets.com"
-                              )
+trait SmartyStreetsException extends Exception {
+  val message: String
+
+  override def getMessage: String = message
+}

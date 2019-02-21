@@ -1,7 +1,7 @@
-package com.upstartcommerce.smartystreets.common
+package org.upstartcommerce.smartystreets.common
 
-import com.upstartcommerce.smartystreets.common.Match.Match
-import com.upstartcommerce.smartystreets.common.util.Utils.JsonSnakeCase
+import org.upstartcommerce.smartystreets.common.Match.Match
+import org.upstartcommerce.smartystreets.common.util.Utils.JsonSnakeCase
 import play.api.libs.json._
 
 import scala.language.implicitConversions

@@ -1,6 +1,4 @@
-package com.upstartcommerce.smartystreets.common.exception
-
-import akka.http.scaladsl.server.RejectionError
+package org.upstartcommerce.smartystreets.common
 
 /*
 Copyright 2019 UpStart Commerce, Inc.
@@ -19,13 +17,16 @@ limitations under the License.
  */
 
 /**
-  * Represents an exception raised due to the inability to unmarshal SmartyStreets API response body
+  * Represent configuration for SmartyStreets API
   *
-  * @param message Message from SmartyStreets, should not be processed in any way
-  * @param cause   Error thrown by the unmarshaler.
+  * @param authId    Authentication ID provided by SmartyStreets
+  * @param authToken Authentication token provided by SmartyStreets
+  * @param endpoint  Endpoint where SmartyStreets API is running
   *
   * @author Yan Doroshenko
   */
-case class DeserializationException(message: String, cause: RejectionError) extends SmartyStreetsException {
-  override def getCause: Throwable = cause
-}
+case class SmartyStreetsConfig(
+                                authId: String,
+                                authToken: String,
+                                endpoint: String = "https://us-street.api.smartystreets.com"
+                              )

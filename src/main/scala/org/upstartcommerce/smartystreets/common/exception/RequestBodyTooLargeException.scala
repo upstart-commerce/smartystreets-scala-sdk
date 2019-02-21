@@ -1,4 +1,4 @@
-package com.upstartcommerce.smartystreets.common.exception
+package org.upstartcommerce.smartystreets.common.exception
 
 /*
 Copyright 2019 UpStart Commerce, Inc.
@@ -17,10 +17,10 @@ limitations under the License.
  */
 
 /**
-  * Represents an exception raised from the SmartyStreets API returning 401 UNAUTHORIZED HTTP status, which usually means that authId and tokenId are either invalid or don't match
+  * Represents an exception raised from the SmartyStreets API returning 413 REQUEST ENTITY TOO LARGE HTTP status, which is returned if request body size exceeds the maximum of 32K
   *
   * @param message Message from SmartyStreets, should not be processed in any way
   *
   * @author Yan Doroshenko
   */
-case class UnauthorizedException(message: String) extends SmartyStreetsException
+case class RequestBodyTooLargeException(message: String) extends SmartyStreetsException

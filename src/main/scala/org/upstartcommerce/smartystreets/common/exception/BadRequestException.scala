@@ -1,4 +1,4 @@
-package com.upstartcommerce.smartystreets.common.exception
+package org.upstartcommerce.smartystreets.common.exception
 
 /*
 Copyright 2019 UpStart Commerce, Inc.
@@ -17,10 +17,10 @@ limitations under the License.
  */
 
 /**
-  * Represents an exception raised from the SmartyStreets API returning 429 TOO MANY REQUESTS HTTP status
+  * Represents an exception raised from the SmartyStreets API returning 400 BAD REQUEST HTTP status
   *
   * @param message Message from SmartyStreets, should not be processed in any way
   *
   * @author Yan Doroshenko
   */
-case class TooManyRequestsException(message: String) extends SmartyStreetsException
+case class BadRequestException(message: String) extends SmartyStreetsException

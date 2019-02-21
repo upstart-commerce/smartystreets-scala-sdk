@@ -1,4 +1,4 @@
-package com.upstartcommerce.smartystreets.common.exception
+package org.upstartcommerce.smartystreets.common.exception
 
 /*
 Copyright 2019 UpStart Commerce, Inc.
@@ -17,12 +17,10 @@ limitations under the License.
  */
 
 /**
-  * Represents a general exception raised when during interaction with SmartyStreets API
+  * Represents an exception raised from the SmartyStreets API returning 401 UNAUTHORIZED HTTP status, which usually means that authId and tokenId are either invalid or don't match
+  *
+  * @param message Message from SmartyStreets, should not be processed in any way
   *
   * @author Yan Doroshenko
   */
-trait SmartyStreetsException extends Exception {
-  val message: String
-
-  override def getMessage: String = message
-}
+case class UnauthorizedException(message: String) extends SmartyStreetsException

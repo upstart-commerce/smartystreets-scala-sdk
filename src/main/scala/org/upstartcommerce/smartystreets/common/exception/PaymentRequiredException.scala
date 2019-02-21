@@ -1,4 +1,4 @@
-package com.upstartcommerce.smartystreets.common.exception
+package org.upstartcommerce.smartystreets.common.exception
 
 /*
 Copyright 2019 UpStart Commerce, Inc.

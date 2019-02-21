@@ -1,4 +1,4 @@
-package com.upstartcommerce.smartystreets.common.util
+package org.upstartcommerce.smartystreets.common.util
 
 import play.api.libs.json.JsonNaming.SnakeCase
 import play.api.libs.json._

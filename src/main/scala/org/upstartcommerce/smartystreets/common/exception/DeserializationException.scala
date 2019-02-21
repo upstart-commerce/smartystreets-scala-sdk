@@ -1,4 +1,6 @@
-package com.upstartcommerce.smartystreets.common.exception
+package org.upstartcommerce.smartystreets.common.exception
+
+import akka.http.scaladsl.server.RejectionError
 
 /*
 Copyright 2019 UpStart Commerce, Inc.
@@ -17,10 +19,13 @@ limitations under the License.
  */
 
 /**
-  * Represents an exception raised from the SmartyStreets API returning 413 REQUEST ENTITY TOO LARGE HTTP status, which is returned if request body size exceeds the maximum of 32K
+  * Represents an exception raised due to the inability to unmarshal SmartyStreets API response body
   *
   * @param message Message from SmartyStreets, should not be processed in any way
+  * @param cause   Error thrown by the unmarshaler.
   *
   * @author Yan Doroshenko
   */
-case class RequestBodyTooLargeException(message: String) extends SmartyStreetsException
+case class DeserializationException(message: String, cause: RejectionError) extends SmartyStreetsException {
+  override def getCause: Throwable = cause
+}

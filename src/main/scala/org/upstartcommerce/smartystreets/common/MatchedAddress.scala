@@ -1,17 +1,17 @@
-package com.upstartcommerce.smartystreets.common
+package org.upstartcommerce.smartystreets.common
 
-import com.upstartcommerce.smartystreets.common.DPVFootnote.DPVFootnote
-import com.upstartcommerce.smartystreets.common.DPVMatchCode.DPVMatchCode
-import com.upstartcommerce.smartystreets.common.ELOTSort.ELOTSort
-import com.upstartcommerce.smartystreets.common.Footnote.Footnote
-import com.upstartcommerce.smartystreets.common.LACSLinkCode.LACSLinkCode
-import com.upstartcommerce.smartystreets.common.LACSLinkIndicator.LACSLinkIndicator
-import com.upstartcommerce.smartystreets.common.Precision.Precision
-import com.upstartcommerce.smartystreets.common.RecordType.RecordType
-import com.upstartcommerce.smartystreets.common.ResidentialDeliveryIndicator.ResidentialDeliveryIndicator
-import com.upstartcommerce.smartystreets.common.ZipType.ZipType
-import com.upstartcommerce.smartystreets.common.util.Utils.CharBoolean.CharBoolean
-import com.upstartcommerce.smartystreets.common.util.Utils.JsonSnakeCase
+import org.upstartcommerce.smartystreets.common.DPVFootnote.DPVFootnote
+import org.upstartcommerce.smartystreets.common.DPVMatchCode.DPVMatchCode
+import org.upstartcommerce.smartystreets.common.ELOTSort.ELOTSort
+import org.upstartcommerce.smartystreets.common.Footnote.Footnote
+import org.upstartcommerce.smartystreets.common.LACSLinkCode.LACSLinkCode
+import org.upstartcommerce.smartystreets.common.LACSLinkIndicator.LACSLinkIndicator
+import org.upstartcommerce.smartystreets.common.Precision.Precision
+import org.upstartcommerce.smartystreets.common.RecordType.RecordType
+import org.upstartcommerce.smartystreets.common.ResidentialDeliveryIndicator.ResidentialDeliveryIndicator
+import org.upstartcommerce.smartystreets.common.ZipType.ZipType
+import org.upstartcommerce.smartystreets.common.util.Utils.CharBoolean.CharBoolean
+import org.upstartcommerce.smartystreets.common.util.Utils.JsonSnakeCase
 import play.api.libs.json._
 
 import scala.language.implicitConversions

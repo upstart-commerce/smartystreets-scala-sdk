@@ -1,10 +1,10 @@
-package com.upstartcommerce.smartystreets
+package org.upstartcommerce.smartystreets
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import com.upstartcommerce.smartystreets.common._
-import com.upstartcommerce.smartystreets.common.exception.{BadRequestException, RequestBodyTooLargeException, UnauthorizedException}
 import org.scalatest.{AsyncWordSpec, Matchers}
+import org.upstartcommerce.smartystreets.common._
+import org.upstartcommerce.smartystreets.common.exception.{BadRequestException, RequestBodyTooLargeException, UnauthorizedException}
 
 import scala.concurrent.ExecutionContext
 

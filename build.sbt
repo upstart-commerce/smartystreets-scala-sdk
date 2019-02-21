@@ -1,4 +1,4 @@
-organization := "com.upstartcommerce"
+organization := "org.upstartcommerce"
 name := "smartystreets-scala-sdk"
 version := "0.0.1"
 
