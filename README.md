@@ -1,4 +1,5 @@
 # SmartyStreets Scala SDK
+[![Build Status](https://travis-ci.org/upstart-commerce/smartystreets-scala-sdk.svg?branch=master)](https://travis-ci.org/upstart-commerce/smartystreets-scala-sdk)
  [ ![Download](https://api.bintray.com/packages/upstartcommerce/generic/smartystreets-scala-sdk/images/download.svg) ](https://bintray.com/upstartcommerce/generic/smartystreets-scala-sdk/_latestVersion)
 
 Scala library for interaction with SmartyStreets REST API.
