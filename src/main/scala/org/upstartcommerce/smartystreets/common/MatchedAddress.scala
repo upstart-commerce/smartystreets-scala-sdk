@@ -462,24 +462,24 @@ object DPVFootnote extends Enumeration {
     case "U1" => UniqueZipCode
   }
 
-  protected case class Val(code: String) extends super.Val
+  protected case class Val(code: String, description: String) extends super.Val
 
-  val AllValid = Val("AA")
-  val PlusFourNotMatched = Val("A1")
-  val Confirmed = Val("BB")
-  val SecondaryDropped = Val("CC")
-  val MilitaryDiplomatic = Val("F1")
-  val GeneralDelivery = Val("G1")
-  val PrimaryNumberMissing = Val("M1")
-  val PrimaryNumberInvalid = Val("M3")
-  val SecondaryMissing = Val("N1")
-  val POBox = Val("PB")
-  val BoxNumberMissing = Val("P1")
-  val BoxNumberInvalid = Val("P3")
-  val PrivateMailbox = Val("RR")
-  val NoPrivateMailbox = Val("R1")
-  val NoStreetDelivery = Val("R7")
-  val UniqueZipCode = Val("U1")
+  val AllValid = Val("AA", "City/state/ZIP + street are all valid")
+  val PlusFourNotMatched = Val("A1", "ZIP+4 not matched; address is invalid. (City/state/ZIP + street don't match.)")
+  val Confirmed = Val("BB", "ZIP+4 matched; confirmed entire address; address is valid")
+  val SecondaryDropped = Val("CC", "Confirmed address by dropping secondary (apartment, suite, etc.) information")
+  val MilitaryDiplomatic = Val("F1", "Matched to military or diplomatic address")
+  val GeneralDelivery = Val("G1", "Matched to general delivery address")
+  val PrimaryNumberMissing = Val("M1", "Primary number (e.g., house number) is missing")
+  val PrimaryNumberInvalid = Val("M3", "Primary number (e.g., house number) is invalid")
+  val SecondaryMissing = Val("N1", "Confirmed with missing secondary information; address is valid but it also needs a secondary number (apartment, suite, etc.)")
+  val POBox = Val("PB", "Confirmed as a PO BOX street style address")
+  val BoxNumberMissing = Val("P1", "PO, RR, or HC box number is missing")
+  val BoxNumberInvalid = Val("P3", "PO, RR, or HC box number is invalid")
+  val PrivateMailbox = Val("RR", "Confirmed address with private mailbox (PMB) info")
+  val NoPrivateMailbox = Val("R1", "Confirmed address without private mailbox (PMB) info")
+  val NoStreetDelivery = Val("R7", "Confirmed as a valid address that doesn't currently receive US Postal Service street delivery")
+  val UniqueZipCode = Val("U1", "Matched a unique ZIP Code")
 
   implicit def valueToVal(v: Value): Val = v.asInstanceOf[Val]
 }
@@ -607,7 +607,7 @@ object Footnotes {
 object Footnote extends Enumeration {
   type Footnote = Value
 
-  protected case class Val(code: String) extends super.Val
+  protected case class Val(code: String, description: String) extends super.Val
 
   def apply(code: String): Val = code match {
     case "A#" => CorrectedZipCode
@@ -640,33 +640,33 @@ object Footnote extends Enumeration {
     case "Z#" => MatchedWithZipMove
   }
 
-  val CorrectedZipCode = Val("A#")
-  val FixedCityStateSpelling = Val("B#")
-  val InvalidCityStateZip = Val("C#")
-  val NoPlus4Assigned = Val("D#")
-  val SameZipForMultiple = Val("E#")
-  val AddressNotFound = Val("F#")
-  val UsedFirmData = Val("G#")
-  val MissingSecondaryNumber = Val("H#")
-  val IncorrectAddressData = Val("I#")
-  val DualAddress = Val("J#")
-  val CardinalRuleMatch = Val("K#")
-  val ChangedAddressComponent = Val("L#")
-  val FlaggedForLACSLink = Val("LI#")
-  val FixedStreetSpelling = Val("M#")
-  val FixedAbbreviations = Val("N#")
-  val MultiplePlus4 = Val("O#")
-  val BetterAddressExists = Val("P#")
-  val UniqueZipMatch = Val("Q#")
-  val EWSMatchSoon = Val("R#")
-  val BadSecondaryAddress = Val("S#")
-  val MultipleResponse = Val("T#")
-  val UnofficialPostOfficeName = Val("U#")
-  val UnverifiableCityState = Val("V#")
-  val InvalidDeliveryAddress = Val("W#")
-  val UniqueZipCode = Val("X#")
-  val MilitaryMatch = Val("Y#")
-  val MatchedWithZipMove = Val("Z#")
+  val CorrectedZipCode = Val("A#", "The address was found to have a different 5-digit ZIP Code than given in the submitted list. The correct ZIP Code is shown in the ZIP Code field")
+  val FixedCityStateSpelling = Val("B#", "The spelling of the city name and/or state abbreviation in the submitted address was found to be different than the standard spelling. The standard spelling of the city name and state abbreviation is shown in the City and State fields")
+  val InvalidCityStateZip = Val("C#", "The ZIP Code in the submitted address could not be found because neither a valid city and state, nor valid 5-digit ZIP Code was present. SmartyStreets recommends that the customer check the accuracy of the submitted address.")
+  val NoPlus4Assigned = Val("D#", "This is a record listed by the United States Postal Service as a non-deliverable location. SmartyStreets recommends that the customer check the accuracy of the submitted address.")
+  val SameZipForMultiple = Val("E#", "Multiple records were returned, but each shares the same 5-digit ZIP Code.")
+  val AddressNotFound = Val("F#", "The address, exactly as submitted, could not be found in the city, state, or ZIP Code provided. Many factors contribute to this; either the primary number is missing, the street is missing, or the street is too horribly misspelled to understand.")
+  val UsedFirmData = Val("G#", "Information in the firm line was determined to be a part of the address. It was moved out of the firm line and incorporated into the address line.")
+  val MissingSecondaryNumber = Val("H#", "ZIP+4 information indicates that this address is a building. The address as submitted does not contain a secondary (apartment, suite, etc.) number. SmartyStreets recommends that the customer check the accuracy of the submitted address and add the missing secondary number to ensure the correct Delivery Point Barcode (DPBC).")
+  val IncorrectAddressData = Val("I#", "More than one ZIP+4 Code was found to satisfy the address as submitted. The submitted address did not contain sufficiently complete or correct data to determine a single ZIP+4 Code. SmartyStreets recommends that the customer check the accuracy and completeness of the submitted address. For example, a street may have a similar address at both the north and south ends of the street.")
+  val DualAddress = Val("J#", "The input contained two addresses. For example: 123 MAIN ST PO BOX 99.")
+  val CardinalRuleMatch = Val("K#", "Although the address as submitted is not valid, we were able to find a match by changing the cardinal direction (North, South, East, West). The cardinal direction we used to find a match is found in the components.")
+  val ChangedAddressComponent = Val("L#", "An address component (i.e., directional or suffix only) was added, changed, or deleted in order to achieve a match.")
+  val FlaggedForLACSLink = Val("LI#", "The input address matched a record that was LACS-indicated, that was submitted to LACSLink for processing. This does not mean that the address was converted; it only means that the address was submitted to LACSLink because the input address had the LACS indicator set.")
+  val FixedStreetSpelling = Val("M#", "The spelling of the street name was changed in order to achieve a match.")
+  val FixedAbbreviations = Val("N#", "The delivery address was standardized. For example, if STREET was in the delivery address, SmartyStreets will return ST as its standard spelling.")
+  val MultiplePlus4 = Val("O#", "More than one ZIP+4 Code was found to satisfy the address as submitted. The lowest ZIP+4 add-on may be used to break the tie between the records.")
+  val BetterAddressExists = Val("P#", "The delivery address is matchable, but it is known by another (preferred) name. For example, in New York, NY, AVENUE OF THE AMERICAS is also known as 6TH AVE. An inquiry using a delivery address of 39 6th Avenue would be flagged with Footnote P.")
+  val UniqueZipMatch = Val("Q#", "Match to an address with a unique ZIP Code")
+  val EWSMatchSoon = Val("R#", "The delivery address is not yet matchable, but the Early Warning System file indicates that an exact match will be available soon.")
+  val BadSecondaryAddress = Val("S#", "The secondary information (apartment, suite, etc.) does not match that on the national ZIP+4 file. The secondary information, although present on the input address, was not valid in the range found on the national ZIP+4 file.")
+  val MultipleResponse = Val("T#", "The search resulted in a single response; however, the record matched was flagged as having magnet street syndrome, and the input street name components (pre-directional, primary street name, post-directional, and suffix) did not exactly match those of the record. A \"magnet street\" is one having a primary street name that is also a suffix or directional word, having either a post-directional or a suffix (i.e., 2220 PARK MEMPHIS TN logically matches to a ZIP+4 record 2200-2258 PARK AVE MEMPHIS TN 38114-6610), but the input address lacks the suffix \"AVE\" which is present on the ZIP+4 record. The primary street name \"PARK\" is a suffix word. The record has either a suffix or a post-directional present. Therefore, in accordance with CASS requirements, a ZIP+4 Code must not be returned. The multiple response return code is given since a \"no match\" would prevent the best candidate.")
+  val UnofficialPostOfficeName = Val("U#", "The city or post office name in the submitted address is not recognized by the United States Postal Service as an official last line name (preferred city name), and is not acceptable as an alternate name. The preferred city name is included in the City field.")
+  val UnverifiableCityState = Val("V#", "The city and state in the submitted address could not be verified as corresponding to the given 5-digit ZIP Code. This comment does not necessarily denote an error; however, SmartyStreets recommends that the customer check the accuracy of the city and state in the submitted address.")
+  val InvalidDeliveryAddress = Val("W#", "The input address record contains a delivery address other than a PO Box, General Delivery, or Postmaster 5-digit ZIP Code that is identified as a \"small town default.\" The USPS does not provide street delivery service for this ZIP Code. The USPS requires the use of a PO Box, General Delivery, or Postmaster for delivery within this ZIP Code.")
+  val UniqueZipCode = Val("X#", "Default match inside a unique ZIP Code")
+  val MilitaryMatch = Val("Y#", "Match made to a record with a military or diplomatic ZIP Code.")
+  val MatchedWithZipMove = Val("Z#", "The ZIPMOVE product shows which ZIP+4 records have moved from one ZIP Code to another. If an input address matches a ZIP+4 record which the ZIPMOVE product indicates has moved, the search is performed again in the new ZIP Code.")
 
   implicit def valueToVal(v: Value): Val = v.asInstanceOf[Val]
 
