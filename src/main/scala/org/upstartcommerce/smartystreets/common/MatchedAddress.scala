@@ -14,8 +14,6 @@ import org.upstartcommerce.smartystreets.common.util.Utils.CharBoolean.CharBoole
 import org.upstartcommerce.smartystreets.common.util.Utils.JsonSnakeCase
 import play.api.libs.json._
 
-import scala.language.implicitConversions
-
 /*
 Copyright 2019 UpStart Commerce, Inc.
 

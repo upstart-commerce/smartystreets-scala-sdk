@@ -4,8 +4,6 @@ import org.upstartcommerce.smartystreets.common.Match.Match
 import org.upstartcommerce.smartystreets.common.util.Utils.JsonSnakeCase
 import play.api.libs.json._
 
-import scala.language.implicitConversions
-
 /*
 Copyright 2019 UpStart Commerce, Inc.
 
