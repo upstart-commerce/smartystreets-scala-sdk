@@ -12,8 +12,8 @@ crossScalaVersions in ThisBuild := Seq(scala_2_12, scala_2_13)
 // the Scala version that will be used for cross-compiled libraries
 scalaVersion in ThisBuild := scala_2_13
 
-val akkaHttpPlayJson = "de.heikoseeberger" %% "akka-http-play-json" % "1.35.3"
-val akkaHttp = "com.typesafe.akka" %% "akka-http" % "10.2.3"
+val akkaHttpPlayJson = "de.heikoseeberger" %% "akka-http-play-json" % "1.33.0"
+val akkaHttp = "com.typesafe.akka" %% "akka-http" % "10.1.12"
 val akkaActor = "com.typesafe.akka" %% "akka-actor" % "2.6.8"
 val akkaStream = "com.typesafe.akka" %% "akka-stream" % "2.6.8"
 val scalatest = "org.scalatest" %% "scalatest" % "3.0.9" % Test
