@@ -10,7 +10,7 @@ Add following to your build.sbt
 ```sbtshell
 resolvers in Global += Resolver.url("upstartcommerce", url("https://upstartcommerce.bintray.com/generic"))(Resolver.ivyStylePatterns)
 
-libraryDependencies += "org.upstartcommerce" %% "smartystreets-scala-sdk" % "0.0.1" // or whatever latest version is
+libraryDependencies += "org.upstartcommerce" %% "smartystreets-scala-sdk" % "0.0.2" // or whatever latest version is
 ```
 
 ### Usage
@@ -28,7 +28,7 @@ class MyAddressVerificationService extends SmartyStreetsIntegration {
   )
 
 }
-    
+
 object Main {
   def main(args: Array[String]): Unit = {
     val service = new MyAddressVerificationService
@@ -40,10 +40,10 @@ object Main {
     )
     service.verifyAddress(address).map { resp =>
         println(resp) // Process response
-    }      
-  }  
+    }
+  }
 }
 ```
->**Note**: Implicit `ActorSystem`, `ActorMaterializer` and `ExecutionContext` are required 
+>**Note**: Implicit `ActorSystem`, `ActorMaterializer` and `ExecutionContext` are required
 
 See tests for more examples.
