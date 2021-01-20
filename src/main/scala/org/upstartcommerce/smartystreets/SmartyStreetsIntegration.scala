@@ -5,7 +5,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.RejectionError
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.ActorMaterializer
+import akka.stream.Materializer
 import akka.util.ByteString
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import org.upstartcommerce.smartystreets.common.exception._
@@ -30,7 +30,7 @@ trait SmartyStreetsIntegration extends PlayJsonSupport {
     * @return Future, containing matched addresses if any
     */
   def verifyAddress(address: USAddressRequest)
-                   (implicit ec: ExecutionContext, as: ActorSystem, am: ActorMaterializer): Future[Seq[MatchedAddress]] = {
+                   (implicit ec: ExecutionContext, as: ActorSystem, am: Materializer): Future[Seq[MatchedAddress]] = {
     verifyAddresses(Seq(address)).map(_.head._2)
   }
 
@@ -42,7 +42,7 @@ trait SmartyStreetsIntegration extends PlayJsonSupport {
     * @return Future, containing verirication data grouped by the address
     */
   def verifyAddresses(addresses: Seq[USAddressRequest])
-                     (implicit ec: ExecutionContext, as: ActorSystem, am: ActorMaterializer): Future[Seq[(USAddressRequest, Seq[MatchedAddress])]] = {
+                     (implicit ec: ExecutionContext, as: ActorSystem, am: Materializer): Future[Seq[(USAddressRequest, Seq[MatchedAddress])]] = {
     val responseFuture: Future[HttpResponse] = Http().singleRequest(
       HttpRequest()
         .withMethod(HttpMethods.POST)
@@ -63,7 +63,7 @@ trait SmartyStreetsIntegration extends PlayJsonSupport {
           Future.failed(UnauthorizedException(decodeString(data)))
         case HttpResponse(PaymentRequired, _, HttpEntity.Strict(_, data), _) =>
           Future.failed(PaymentRequiredException(decodeString(data)))
-        case HttpResponse(RequestEntityTooLarge, _, HttpEntity.Strict(_, data), _) =>
+        case HttpResponse(PayloadTooLarge, _, HttpEntity.Strict(_, data), _) =>
           Future.failed(RequestBodyTooLargeException(decodeString(data)))
         case HttpResponse(TooManyRequests, _, HttpEntity.Strict(_, data), _) =>
           Future.failed(TooManyRequestsException(decodeString(data)))

@@ -1,6 +1,6 @@
 organization := "org.upstartcommerce"
 name := "smartystreets-scala-sdk"
-version := "0.0.1"
+version := "0.0.2"
 
 licenses += "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")
 
