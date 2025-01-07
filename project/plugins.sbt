@@ -6,6 +6,8 @@ addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.10.+")
 Global / resolvers += Resolver.url("upstartcommerce-public", url("https://upstartcommerce.jfrog.io/artifactory/generic"))(
   Resolver.ivyStylePatterns
 )
+
 addSbtPlugin("com.upstartcommerce.sbt" % "sbt-git-versioning" % "1.3.0")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.+")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt"  % "2.5.+")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.2.+")
