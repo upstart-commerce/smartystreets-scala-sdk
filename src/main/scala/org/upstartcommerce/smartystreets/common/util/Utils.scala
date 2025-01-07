@@ -3,8 +3,6 @@ package org.upstartcommerce.smartystreets.common.util
 import play.api.libs.json.JsonNaming.SnakeCase
 import play.api.libs.json._
 
-import scala.language.implicitConversions
-
 /*
 Copyright 2019 UpStart Commerce, Inc.
 
@@ -47,12 +45,12 @@ object Utils {
   object CharBoolean extends Enumeration {
     type CharBoolean = Value
 
-    protected case class Val(code: Char, value: Boolean) extends super.Val
+    protected case class Member(code: Char, value: Boolean) extends super.Val
 
-    val True = Val('Y', value = true)
-    val False = Val('N', value = false)
+    val True: Member = Member('Y', value = true)
+    val False: Member = Member('N', value = false)
 
-    implicit def valueToVal(v: Value): Val = v.asInstanceOf[Val]
+    implicit def valueToVal(v: Value): Member = v.asInstanceOf[Member]
 
     implicit val f: Format[Value] =
       new Format[Value] {

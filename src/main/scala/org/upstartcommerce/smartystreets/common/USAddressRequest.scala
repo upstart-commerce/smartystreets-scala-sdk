@@ -82,13 +82,13 @@ object USAddressRequest extends JsonSnakeCase {
 object Match extends Enumeration {
   type Match = Value
 
-  protected case class Val(value: String) extends super.Val
+  protected case class Member(value: String) extends super.Val
 
-  val Strict = Val("strict")
-  val Range = Val("range")
-  val Invalid = Val("invalid")
+  val Strict: Member = Member("strict")
+  val Range: Member = Member("range")
+  val Invalid: Member = Member("invalid")
 
-  implicit def valueToVal(v: Value): Val = v.asInstanceOf[Val]
+  implicit def valueToVal(v: Value): Member = v.asInstanceOf[Member]
 
   implicit val f: Format[Value] =
     new Format[Value] {

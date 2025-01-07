@@ -1,6 +1,6 @@
 ThisBuild / scalaVersion := "2.13.15"
 ThisBuild / organization := "com.upstartcommerce"
-ThisBuild / name := "smartystreets-scala-sdk"
+name := "smartystreets-scala-sdk"
 val pekkoHttpPlayJson = "com.github.pjfanning" %% "pekko-http-play-json" % "3.0.0"
 val pekkoHttp = "org.apache.pekko"             %% "pekko-http"           % "1.1.+"
 val pekkoActor = "org.apache.pekko"            %% "pekko-actor"          % "1.1.1"

@@ -1,7 +1,6 @@
 package org.upstartcommerce.smartystreets
 
 import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.stream.ActorMaterializer
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AsyncWordSpec
 import org.upstartcommerce.smartystreets.common._
@@ -36,7 +35,6 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
 
   implicit val ec: ExecutionContext = ExecutionContext.global
   implicit val as: ActorSystem = ActorSystem()
-  implicit val am: ActorMaterializer = ActorMaterializer()
 
   val authId: String = as.settings.config.getString("auth-id")
   val token: String = as.settings.config.getString("auth-token")

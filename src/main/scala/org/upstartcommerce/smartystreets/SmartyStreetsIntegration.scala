@@ -69,7 +69,7 @@ trait SmartyStreetsIntegration extends PlayJsonSupport {
       .flatMap {
         case HttpResponse(Unauthorized, _, HttpEntity.Strict(_, data), _) => Future.failed(UnauthorizedException(decodeString(data)))
         case HttpResponse(PaymentRequired, _, HttpEntity.Strict(_, data), _) => Future.failed(PaymentRequiredException(decodeString(data)))
-        case HttpResponse(PayloadTooLarge, _, HttpEntity.Strict(_, data), _) =>
+        case HttpResponse(ContentTooLarge, _, HttpEntity.Strict(_, data), _) =>
           Future.failed(RequestBodyTooLargeException(decodeString(data)))
         case HttpResponse(TooManyRequests, _, HttpEntity.Strict(_, data), _) => Future.failed(TooManyRequestsException(decodeString(data)))
         case HttpResponse(BadRequest, _, entity, _) =>
