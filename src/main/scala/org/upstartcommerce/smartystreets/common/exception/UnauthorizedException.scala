@@ -16,11 +16,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/**
-  * Represents an exception raised from the SmartyStreets API returning 401 UNAUTHORIZED HTTP status, which usually means that authId and tokenId are either invalid or don't match
+/** Represents an exception raised from the SmartyStreets API returning 401 UNAUTHORIZED HTTP status, which usually means that authId and
+  * tokenId are either invalid or don't match
   *
-  * @param message Message from SmartyStreets, should not be processed in any way
+  * @param message
+  *   Message from SmartyStreets, should not be processed in any way
   *
-  * @author Yan Doroshenko
+  * @author
+  *   Yan Doroshenko
   */
 case class UnauthorizedException(message: String) extends SmartyStreetsException

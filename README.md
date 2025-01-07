@@ -8,9 +8,7 @@ Scala library for interaction with SmartyStreets REST API.
 
 Add following to your build.sbt
 ```sbtshell
-resolvers in Global += Resolver.url("upstartcommerce", url("https://upstartcommerce.bintray.com/generic"))(Resolver.ivyStylePatterns)
-
-libraryDependencies += "org.upstartcommerce" %% "smartystreets-scala-sdk" % "0.0.2" // or whatever latest version is
+libraryDependencies += "org.upstartcommerce" %% "smartystreets-scala-sdk" % "1.0.0" // or whatever latest version is
 ```
 
 ### Usage

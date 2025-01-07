@@ -16,11 +16,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/**
-  * Represents an exception raised from the SmartyStreets API returning 413 REQUEST ENTITY TOO LARGE HTTP status, which is returned if request body size exceeds the maximum of 32K
+/** Represents an exception raised from the SmartyStreets API returning 413 REQUEST ENTITY TOO LARGE HTTP status, which is returned if
+  * request body size exceeds the maximum of 32K
   *
-  * @param message Message from SmartyStreets, should not be processed in any way
+  * @param message
+  *   Message from SmartyStreets, should not be processed in any way
   *
-  * @author Yan Doroshenko
+  * @author
+  *   Yan Doroshenko
   */
 case class RequestBodyTooLargeException(message: String) extends SmartyStreetsException

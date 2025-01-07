@@ -16,10 +16,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/**
-  * Represents a general exception raised when during interaction with SmartyStreets API
+/** Represents a general exception raised when during interaction with SmartyStreets API
   *
-  * @author Yan Doroshenko
+  * @author
+  *   Yan Doroshenko
   */
 trait SmartyStreetsException extends Exception {
   val message: String

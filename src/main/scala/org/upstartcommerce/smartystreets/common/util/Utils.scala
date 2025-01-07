@@ -21,28 +21,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/**
-  * Wraps the utility stuff used in other places
+/** Wraps the utility stuff used in other places
   *
-  * @author Yan Doroshenko
+  * @author
+  *   Yan Doroshenko
   */
 object Utils {
 
-  /**
-    * Defines the implicit configuration for Play JSON to use snake_case
+  /** Defines the implicit configuration for Play JSON to use snake_case
     *
-    * @author Yan Doroshenko
+    * @author
+    *   Yan Doroshenko
     */
   trait JsonSnakeCase {
     implicit val c: JsonConfiguration = JsonConfiguration(SnakeCase)
   }
 
-  /**
-    * Used for conversion between Y/N and Boolean.
+  /** Used for conversion between Y/N and Boolean.
     *   - '''Y''' - true
     *   - '''N''' - false
     *
-    * @author Yan Doroshenko
+    * @author
+    *   Yan Doroshenko
     */
   object CharBoolean extends Enumeration {
     type CharBoolean = Value
@@ -54,12 +54,13 @@ object Utils {
 
     implicit def valueToVal(v: Value): Val = v.asInstanceOf[Val]
 
-    implicit val f: Format[Value] = new Format[Value] {
-      override def writes(o: Value): JsValue = JsString(o.code.toString)
+    implicit val f: Format[Value] =
+      new Format[Value] {
+        override def writes(o: Value): JsValue = JsString(o.code.toString)
 
-      override def reads(json: JsValue): JsResult[Value] =
-        JsSuccess(values.find(_.code == json.as[String].head).get)
-    }
+        override def reads(json: JsValue): JsResult[Value] = JsSuccess(values.find(_.code == json.as[String].head).get)
+      }
+
   }
 
 }

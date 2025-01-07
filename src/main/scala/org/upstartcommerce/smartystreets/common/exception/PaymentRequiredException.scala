@@ -16,11 +16,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/**
-  * Represents an exception raised from the SmartyStreets API returning 402 PAYMENT REQUIRED HTTP status and usually means that the amount of available lookups for the current payment plan has been depleted
+/** Represents an exception raised from the SmartyStreets API returning 402 PAYMENT REQUIRED HTTP status and usually means that the amount
+  * of available lookups for the current payment plan has been depleted
   *
-  * @param message Message from SmartyStreets, should not be processed in any way
+  * @param message
+  *   Message from SmartyStreets, should not be processed in any way
   *
-  * @author Yan Doroshenko
+  * @author
+  *   Yan Doroshenko
   */
 case class PaymentRequiredException(message: String) extends SmartyStreetsException

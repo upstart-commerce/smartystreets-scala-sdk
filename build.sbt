@@ -1,42 +1,33 @@
-organization := "org.upstartcommerce"
-name := "smartystreets-scala-sdk"
-version := "0.0.2"
+ThisBuild / scalaVersion := "2.13.15"
+ThisBuild / organization := "com.upstartcommerce"
+ThisBuild / name := "smartystreets-scala-sdk"
+val pekkoHttpPlayJson = "com.github.pjfanning" %% "pekko-http-play-json" % "3.0.0"
+val pekkoHttp = "org.apache.pekko" %% "pekko-http" % "1.1.+"
+val pekkoActor = "org.apache.pekko" %% "pekko-actor" % "1.1.1"
+val pekkoStream = "org.apache.pekko" %% "pekko-stream" % "1.1.1"
+val scalatest = "org.scalatest" %% "scalatest" % "3.2.+" % Test
 
-licenses += "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")
-
-// the Scala version that will be used for cross-compiled libraries
-val scala_2_12 = "2.12.12"
-val scala_2_13 = "2.13.4"
-
-crossScalaVersions in ThisBuild := Seq(scala_2_12, scala_2_13)
-// the Scala version that will be used for cross-compiled libraries
-scalaVersion in ThisBuild := scala_2_13
-
-val akkaHttpPlayJson = "de.heikoseeberger" %% "akka-http-play-json" % "1.33.0"
-val akkaHttp = "com.typesafe.akka" %% "akka-http" % "10.1.12"
-val akkaActor = "com.typesafe.akka" %% "akka-actor" % "2.6.8"
-val akkaStream = "com.typesafe.akka" %% "akka-stream" % "2.6.8"
-val scalatest = "org.scalatest" %% "scalatest" % "3.0.9" % Test
 libraryDependencies ++= Seq(
-  akkaActor,
-  akkaHttpPlayJson,
-  akkaHttp,
-  akkaStream,
+  pekkoActor,
+  pekkoHttpPlayJson,
+  pekkoHttp,
+  pekkoStream,
   scalatest
 )
 
+credentials += Credentials(Path.userHome / ".sbt" / ".credentials")
+val artifactoryResolver =
+  Resolver.url("upstartcommerce", url("https://upstartcommerce.jfrog.io/artifactory/nochannel"))(Resolver.ivyStylePatterns)
 
-resolvers in Global += Resolver.url("upstartcommerce", url("https://upstartcommerce.bintray.com/nochannel"))(Resolver.ivyStylePatterns)
-bintrayOmitLicense := true
-bintrayOrganization := Some("upstartcommerce")
-bintrayRepository := "generic"
-bintrayReleaseOnPublish in ThisBuild := false
+Global / resolvers += artifactoryResolver
+publishTo := Some(artifactoryResolver)
+credentials += Credentials(Path.userHome / ".sbt" / ".credentials")
 publishMavenStyle := false
+
 
 scalacOptions := scalacOptionsVersion(scalaVersion.value)
 
-def scalacOptionsVersion(scalaVersion: String) = {
-
+def scalacOptionsVersion(scalaVersion: String) =
   Seq(
     "-deprecation", // Emit warning and location for usages of deprecated APIs.
     "-encoding",
@@ -71,27 +62,7 @@ def scalacOptionsVersion(scalaVersion: String) = {
     "-Ywarn-unused:params", // Warn if a value parameter is unused.
     "-Ywarn-unused:patvars", // Warn if a variable bound in a pattern is unused.
     "-Ywarn-unused:privates", // Warn if a private member is unused.
-    "-Ywarn-value-discard" // Warn when non-Unit expression results are unused.
-  ) ++ {
-    if (scalaVersion == scala_2_12)
-      Seq(
-        "-Xlint:nullary-override", // Warn when non-nullary `def f()' overrides nullary `def f'.
-        "-Ywarn-nullary-unit", // Warn when nullary methods return Unit.
-        "-Ywarn-infer-any", // Warn when a type argument is inferred to be `Any`.
-        //        "-Ywarn-inaccessible", // Warn about inaccessible types in method signatures.
-        "-Ypartial-unification", // Enable partial unification in type constructor inference
-        "-Xlint:by-name-right-associative", // By-name parameter of right associative operator.
-        "-Xlint:unsound-match", // Pattern match may not be typesafe.
-        "-Yno-adapted-args" // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
-      )
-    else if (scalaVersion == scala_2_13)
-      Seq(
-        //        "-Xfatal-warnings", // Fail the compilation if there are any warnings.
-        "-Xlint:nullary-unit", // Warn when nullary methods return Unit.
-        "-Xlint:infer-any" // Warn when a type argument is inferred to be `Any`.
-        //        "-Ywarn-inaccessible", // Warn about inaccessible types in method signatures.
-        //        "-target:jvm-1.11"
-      )
-    else Seq.empty
-  }
-}
+    "-Ywarn-value-discard", // Warn when non-Unit expression results are unused.
+    "-Xlint:nullary-unit", // Warn when nullary methods return Unit.
+    "-Xlint:infer-any" // Warn when a type argument is inferred to be `Any`.
+  )

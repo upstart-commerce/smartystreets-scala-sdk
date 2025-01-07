@@ -1,0 +1,70 @@
+image:
+  name: us.gcr.io/upstart-docker-repo/bitbucket-lib-build-image:latest
+  username: _json_key
+  password: '$GCR_JSON_KEY'
+
+clone:
+  depth: full
+
+definitions:
+  steps:
+    - step: &formatCheck
+        name: Checking sbt and scala formatting
+        caches:
+          - sbt
+          - ivy2
+        script:
+          - /pipeline/build_credentials_setup.sh
+          - sbt +scalafmtSbtCheck +scalafmtCheckAll
+    - step: &publish
+        name: Publishing (Release to Artifactory)
+        size: 2x
+        caches:
+          - sbt
+          - ivy2
+        script:
+          - /pipeline/build_credentials_setup.sh
+          - sbt +publish
+    - step: &runTests
+        name: Running tests
+        size: 2x
+        caches:
+          - sbt
+          - ivy2
+        script:
+          - export TESTCONTAINERS_RYUK_DISABLED=true
+          - export SBT_OPTS="-Xms2560m -Xmx2560m -XX:+CMSClassUnloadingEnabled -Xss4m -XX:+UseConcMarkSweepGC"
+          - /pipeline/build_credentials_setup.sh
+          - sbt clean +compile +test:compile +test
+    - steps: &coverageAndTests
+        name: Executing Coverage
+        size: 2x
+        caches:
+          - sbt
+          - ivy2
+        script:
+          - export TESTCONTAINERS_RYUK_DISABLED=true
+          - export SBT_OPTS="-Xms2560m -Xmx2560m -XX:+CMSClassUnloadingEnabled -Xss4m -XX:+UseConcMarkSweepGC"
+          - /pipeline/build_credentials_setup.sh
+          - sbt clean +compile +test:compile coverage +test coverageReport coverageAggregate
+        artifacts:
+          - target/scala-2.13/coverage-report/**
+          - target/scala-2.13/scoverage-report/**
+pipelines:
+  pull-requests:
+    '**':
+      - step: *formatCheck
+      - step: *runTests
+  branches:
+    master:
+      - step: *coverageAndTests
+  tags:
+    'v*':
+      - step:
+          name: Release to Artifactory
+          caches:
+            - sbt
+            - ivy2
+          script:
+            - /pipeline/build_credentials_setup.sh
+            - sbt +compile +test +publish

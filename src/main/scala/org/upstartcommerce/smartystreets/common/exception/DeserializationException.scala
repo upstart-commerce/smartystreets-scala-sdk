@@ -1,6 +1,6 @@
 package org.upstartcommerce.smartystreets.common.exception
 
-import akka.http.scaladsl.server.RejectionError
+import org.apache.pekko.http.scaladsl.server.RejectionError
 
 /*
 Copyright 2019 UpStart Commerce, Inc.
@@ -18,13 +18,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/**
-  * Represents an exception raised due to the inability to unmarshal SmartyStreets API response body
+/** Represents an exception raised due to the inability to unmarshal SmartyStreets API response body
   *
-  * @param message Message from SmartyStreets, should not be processed in any way
-  * @param cause   Error thrown by the unmarshaler.
+  * @param message
+  *   Message from SmartyStreets, should not be processed in any way
+  * @param cause
+  *   Error thrown by the unmarshaler.
   *
-  * @author Yan Doroshenko
+  * @author
+  *   Yan Doroshenko
   */
 case class DeserializationException(message: String, cause: RejectionError) extends SmartyStreetsException {
   override def getCause: Throwable = cause

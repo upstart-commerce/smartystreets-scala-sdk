@@ -16,17 +16,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/**
-  * Represent configuration for SmartyStreets API
+/** Represent configuration for SmartyStreets API
   *
-  * @param authId    Authentication ID provided by SmartyStreets
-  * @param authToken Authentication token provided by SmartyStreets
-  * @param endpoint  Endpoint where SmartyStreets API is running
+  * @param authId
+  *   Authentication ID provided by SmartyStreets
+  * @param authToken
+  *   Authentication token provided by SmartyStreets
+  * @param endpoint
+  *   Endpoint where SmartyStreets API is running
   *
-  * @author Yan Doroshenko
+  * @author
+  *   Yan Doroshenko
   */
 case class SmartyStreetsConfig(
-                                authId: String,
-                                authToken: String,
-                                endpoint: String = "https://us-street.api.smartystreets.com"
-                              )
+    authId: String,
+    authToken: String,
+    endpoint: String = "https://us-street.api.smartystreets.com"
+)

@@ -1,8 +1,9 @@
 package org.upstartcommerce.smartystreets
 
-import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
-import org.scalatest.{AsyncWordSpec, Matchers}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.ActorMaterializer
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AsyncWordSpec
 import org.upstartcommerce.smartystreets.common._
 import org.upstartcommerce.smartystreets.common.exception.{BadRequestException, RequestBodyTooLargeException, UnauthorizedException}
 
@@ -24,11 +25,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/**
-  * Please keep in mind that running these test can very quickly deplete the limited number of lookups your account has
+/** Please keep in mind that running these test can very quickly deplete the limited number of lookups your account has
   *
-  * @todo Improve tests
-  * @author Yan Doroshenko
+  * @todo
+  *   Improve tests
+  * @author
+  *   Yan Doroshenko
   */
 class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with SmartyStreetsIntegration {
 
@@ -38,6 +40,7 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
 
   val authId: String = as.settings.config.getString("auth-id")
   val token: String = as.settings.config.getString("auth-token")
+
   override val smartyStreetsConfig: SmartyStreetsConfig = SmartyStreetsConfig(
     authId = authId,
     authToken = token
@@ -46,19 +49,20 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
   "SmartyStreets integration" should {
     "succeed on correct address1" in {
       val address = USAddressRequest(
-        street = Some("60 Wall St"),
-        city = Some("New York"),
-        state = Some("NY"),
-        zipcode = Some("10005")
+        street = Some("1600 Pennsylvania Ave SE"),
+        city = Some("Washington"),
+        state = Some("DC"),
+        zipcode = Some("20003")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.HighRise) &&
-            r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
-            r.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.HighRise) &&
+              r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
+              r.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
+          )
       }
     }
 
@@ -69,14 +73,15 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("TX"),
         zipcode = Some("78701")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.HighRise) &&
-            r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
-            r.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.HighRise) &&
+              r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
+              r.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
+          )
       }
     }
 
@@ -87,23 +92,24 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("IO"),
         zipcode = Some("50311")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.HighRise) &&
-            r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
-            r.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.HighRise) &&
+              r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
+              r.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
+          )
       }
     }
 
     "succeed on multiple correct addresses" in {
       val address1 = USAddressRequest(
-        street = Some("60 Wall St"),
-        city = Some("New York"),
-        state = Some("NY"),
-        zipcode = Some("10005")
+        street = Some("1600 Pennsylvania Ave SE"),
+        city = Some("Washington"),
+        state = Some("DC"),
+        zipcode = Some("20003")
       )
 
       val address2 = USAddressRequest(
@@ -132,9 +138,9 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
           assert(resp.forall {
             v =>
               v._2.nonEmpty &&
-                v._2.head.metadata.recordType.contains(RecordType.HighRise) &&
-                v._2.head.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
-                v._2.head.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
+              v._2.head.metadata.recordType.contains(RecordType.HighRise) &&
+              v._2.head.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
+              v._2.head.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
           })
       }
     }
@@ -142,27 +148,28 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
     "respect inputId" in {
       val address = USAddressRequest(
         inputId = Some("inputId"),
-        street = Some("60 Wall St"),
-        city = Some("New York"),
-        state = Some("NY"),
-        zipcode = Some("10005")
+        street = Some("1600 Pennsylvania Ave SE"),
+        city = Some("Washington"),
+        state = Some("DC"),
+        zipcode = Some("20003")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.inputId == address.inputId
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.inputId == address.inputId
+          )
       }
     }
 
     "respect multiple inputIds" in {
       val address1 = USAddressRequest(
         inputId = Some("inputId1"),
-        street = Some("60 Wall St"),
-        city = Some("New York"),
-        state = Some("NY"),
-        zipcode = Some("10005")
+        street = Some("1600 Pennsylvania Ave SE"),
+        city = Some("Washington"),
+        state = Some("DC"),
+        zipcode = Some("20003")
       )
 
       val address2 = USAddressRequest(
@@ -187,90 +194,126 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
           address2,
           address3
         )
-      ).map { resp =>
-        assert(resp.nonEmpty)
-        assert(
-          resp.forall { v =>
-            v._2.exists(_.inputId == v._1.inputId)
-          }
-        )
+      ).map {
+        resp =>
+          assert(resp.nonEmpty)
+          assert(
+            resp.forall {
+              v =>
+                v._2.exists(_.inputId == v._1.inputId)
+            }
+          )
       }
     }
 
     "throw UnauthorizedException for incorrect authId" in {
       val address = USAddressRequest(
         inputId = Some("inputId"),
-        street = Some("60 Wall St"),
-        city = Some("New York"),
-        state = Some("NY"),
-        zipcode = Some("10005")
+        street = Some("1600 Pennsylvania Ave SE"),
+        city = Some("Washington"),
+        state = Some("DC"),
+        zipcode = Some("20003")
       )
-      val i = new SmartyStreetsIntegration {
-        override val smartyStreetsConfig: SmartyStreetsConfig = SmartyStreetsConfig(authId = "halusky", authToken = token)
-      }
-      i.verifyAddress(address).recover {
-        case e: UnauthorizedException => e
-      }.map { v =>
-        assert(v.isInstanceOf[UnauthorizedException])
-      }
-      i.verifyAddresses(Seq(address)).recover {
-        case e: UnauthorizedException => e
-      }.map { v =>
-        assert(v.isInstanceOf[UnauthorizedException])
-      }
+      val i =
+        new SmartyStreetsIntegration {
+          override val smartyStreetsConfig: SmartyStreetsConfig = SmartyStreetsConfig(authId = "halusky", authToken = token)
+        }
+      i.verifyAddress(address)
+        .recover {
+          case e: UnauthorizedException => e
+        }
+        .map {
+          v =>
+            assert(v.isInstanceOf[UnauthorizedException])
+        }
+      i.verifyAddresses(Seq(address))
+        .recover {
+          case e: UnauthorizedException => e
+        }
+        .map {
+          v =>
+            assert(v.isInstanceOf[UnauthorizedException])
+        }
     }
 
     "throw UnauthorizedException for incorrect authToken" in {
       val address = USAddressRequest(
         inputId = Some("inputId"),
-        street = Some("60 Wall St"),
-        city = Some("New York"),
-        state = Some("NY"),
-        zipcode = Some("10005")
+        street = Some("1600 Pennsylvania Ave SE"),
+        city = Some("Washington"),
+        state = Some("DC"),
+        zipcode = Some("20003")
       )
-      val i = new SmartyStreetsIntegration {
-        override val smartyStreetsConfig: SmartyStreetsConfig = SmartyStreetsConfig(authId = authId, authToken = "halusky")
-      }
-      i.verifyAddress(address).recover {
-        case e: UnauthorizedException => e
-      }.map { v =>
-        assert(v.isInstanceOf[UnauthorizedException])
-      }
-      i.verifyAddresses(Seq(address)).recover {
-        case e: UnauthorizedException => e
-      }.map { v =>
-        assert(v.isInstanceOf[UnauthorizedException])
-      }
+      val i =
+        new SmartyStreetsIntegration {
+          override val smartyStreetsConfig: SmartyStreetsConfig = SmartyStreetsConfig(authId = authId, authToken = "halusky")
+        }
+      i.verifyAddress(address)
+        .recover {
+          case e: UnauthorizedException => e
+        }
+        .map {
+          v =>
+            assert(v.isInstanceOf[UnauthorizedException])
+        }
+      i.verifyAddresses(Seq(address))
+        .recover {
+          case e: UnauthorizedException => e
+        }
+        .map {
+          v =>
+            assert(v.isInstanceOf[UnauthorizedException])
+        }
     }
 
     "throw BadRequestException for more than 100 addresses" in {
       val address = USAddressRequest(
         inputId = Some("inputId"),
-        street = Some("60 Wall St"),
-        city = Some("New York"),
-        state = Some("NY"),
-        zipcode = Some("10005")
+        street = Some("1600 Pennsylvania Ave SE"),
+        city = Some("Washington"),
+        state = Some("DC"),
+        zipcode = Some("20003")
       )
-      verifyAddresses(for (_ <- 1 to 101) yield address).recover {
+      verifyAddresses(
+        for (_ <- 1 to 101)
+          yield address
+      ).recover {
         case e: BadRequestException => e
-      }.map { v =>
-        assert(v.isInstanceOf[BadRequestException])
+      }.map {
+        v =>
+          assert(v.isInstanceOf[BadRequestException])
       }
     }
 
     "throw BodyTooLargeException for body larger than 32K" in {
       val address = USAddressRequest(
-        inputId = Some("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-        street = Some("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-        street2 = Some("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-        city = Some("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-        state = Some("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-        zipcode = Some("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        inputId = Some(
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ),
+        street = Some(
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ),
+        street2 = Some(
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ),
+        city = Some(
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ),
+        state = Some(
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ),
+        zipcode = Some(
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        )
       )
-      verifyAddresses(for (_ <- 1 to 100) yield address).recover {
+      verifyAddresses(
+        for (_ <- 1 to 100)
+          yield address
+      ).recover {
         case e: RequestBodyTooLargeException => e
-      }.map { v =>
-        assert(v.isInstanceOf[RequestBodyTooLargeException])
+      }.map {
+        v =>
+          assert(v.isInstanceOf[RequestBodyTooLargeException])
       }
     }
 
@@ -281,12 +324,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("CA"),
         zipcode = Some("95020-9257")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.Firm)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.Firm)
+          )
       }
     }
 
@@ -296,12 +340,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Provo"),
         state = Some("UT")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.GeneralDelivery)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.GeneralDelivery)
+          )
       }
     }
 
@@ -312,12 +357,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("DC"),
         zipcode = Some("20003")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.HighRise)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.HighRise)
+          )
       }
     }
 
@@ -327,12 +373,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Tulsa"),
         state = Some("OK")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.POBox)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.POBox)
+          )
       }
     }
 
@@ -342,12 +389,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Anasco"),
         state = Some("PR")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.RuralRoute)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.RuralRoute)
+          )
       }
     }
 
@@ -358,12 +406,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("CA"),
         zipcode = Some("92530")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.Street)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.Street)
+          )
       }
     }
 
@@ -373,28 +422,30 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Mountain View"),
         state = Some("CA")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvMatchCode.contains(DPVMatchCode.Confirmed)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvMatchCode.contains(DPVMatchCode.Confirmed)
+          )
       }
     }
 
     "return dropped secondary DPV match code" in {
       val address = USAddressRequest(
-        street = Some("62 Ea Darden Dr"),
+        street = Some("16990 Monterey Rd"),
         secondary = Some("Apt 298"),
-        city = Some("Anniston"),
-        state = Some("AL")
+        city = Some("Lake Elsinore"),
+        state = Some("CA")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryDropped)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryDropped)
+          )
       }
     }
 
@@ -404,12 +455,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Lee"),
         state = Some("NH")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing)
+          )
       }
     }
 
@@ -420,12 +472,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Provo"),
         state = Some("UT")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.AllValid)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.AllValid)
+          )
       }
     }
 
@@ -436,12 +489,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("NY"),
         `match` = Some(Match.Invalid)
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.PlusFourNotMatched)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.PlusFourNotMatched)
+          )
       }
     }
 
@@ -452,28 +506,30 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Provo"),
         state = Some("UT")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.Confirmed)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.Confirmed)
+          )
       }
     }
 
     "return secondary dropped DPV footnote" in {
       val address = USAddressRequest(
-        street = Some("2335 S State St"),
-        street2 = Some("Ste 500"),
-        city = Some("Provo"),
-        state = Some("Utah")
+        street = Some("16990 Monterey Rd"),
+        city = Some("Lake Elsinore"),
+        state = Some("CA"),
+        street2 = Some("Ste 500")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.SecondaryDropped)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.SecondaryDropped)
+          )
       }
     }
 
@@ -484,12 +540,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("APO"),
         state = Some("AP")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.AllValid)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.AllValid)
+          )
       }
     }
 
@@ -500,12 +557,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("UT"),
         zipcode = Some("84601")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.GeneralDelivery)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.GeneralDelivery)
+          )
       }
     }
 
@@ -516,12 +574,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("UT"),
         `match` = Some(Match.Invalid)
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.PrimaryNumberMissing)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.PrimaryNumberMissing)
+          )
       }
     }
 
@@ -532,12 +591,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("UT"),
         `match` = Some(Match.Invalid)
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.PrimaryNumberInvalid)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.PrimaryNumberInvalid)
+          )
       }
     }
 
@@ -547,12 +607,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Provo"),
         state = Some("UT")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.SecondaryMissing)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.SecondaryMissing)
+          )
       }
     }
 
@@ -563,12 +624,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Memphis"),
         state = Some("TN")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.POBox)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.POBox)
+          )
       }
     }
 
@@ -580,12 +642,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         zipcode = Some("802910126"),
         `match` = Some(Match.Invalid)
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.BoxNumberMissing)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.BoxNumberMissing)
+          )
       }
     }
 
@@ -597,12 +660,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         zipcode = Some("99706"),
         `match` = Some(Match.Invalid)
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.BoxNumberInvalid)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.BoxNumberInvalid)
+          )
       }
     }
 
@@ -613,12 +677,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Provo"),
         state = Some("UT")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.PrivateMailbox)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.PrivateMailbox)
+          )
       }
     }
 
@@ -628,12 +693,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         city = Some("Provo"),
         state = Some("UT")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.NoPrivateMailbox)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.NoPrivateMailbox)
+          )
       }
     }
 
@@ -644,12 +710,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("VI"),
         zipcode = Some("00830")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.NoStreetDelivery)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.NoStreetDelivery)
+          )
       }
     }
 
@@ -658,12 +725,13 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         street = Some("100 north happy street"),
         zipcode = Some("12345")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.UniqueZipCode)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.analysis.dpvFootnotes.footnotes.contains(DPVFootnote.UniqueZipCode)
+          )
       }
     }
 
@@ -674,28 +742,31 @@ class SmartyStreetsIntegrationSpec extends AsyncWordSpec with Matchers with Smar
         state = Some("Maryland"),
         candidates = 10
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp
-        assert(
-          r.size > 1
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp
+          assert(
+            r.size > 1
+          )
       }
     }
 
     "support freeform address" in {
       val address = USAddressRequest(
-        street = Some("60 Wall St New York NY 10005"),
+        street = Some("1600 Pennsylvania ave SE Washington, DC 20003")
       )
-      verifyAddress(address).map { resp =>
-        assert(resp.nonEmpty)
-        val r = resp.head
-        assert(
-          r.metadata.recordType.contains(RecordType.HighRise) &&
-            r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
-            r.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
-        )
+      verifyAddress(address).map {
+        resp =>
+          assert(resp.nonEmpty)
+          val r = resp.head
+          assert(
+            r.metadata.recordType.contains(RecordType.HighRise) &&
+              r.analysis.dpvMatchCode.contains(DPVMatchCode.SecondaryMissing) &&
+              r.analysis.footnotes.get.footnotes.contains(Footnote.MissingSecondaryNumber)
+          )
       }
     }
   }
+
 }
